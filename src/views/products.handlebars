@@ -1,0 +1,64 @@
+{{#if user}}
+<div>
+  <h1>Hola, {{user.first_name}}</h1>
+  <p>Estos son tus datos:</p>
+  <ul>
+    <li>Nombre: {{user.first_name}}</li>
+    <li>Apellido: {{user.last_name}}</li>
+    <li>Edad: {{user.age}}</li>
+    <li>Rol: {{user.role}}</li>
+  </ul>
+  <a href="/api/session/logout">Desloguearse</a>
+{{else}}
+  <a href="/api/user/login">Iniciar sesion</a>
+  <br>
+  <a href="/api/user/register">Registrarse</a>
+</div>
+{{/if}}
+
+<div class="cards">
+  {{#each products.docs}}
+    <article class="container" id="product-{{this.id}}">
+      <div class="header">
+        <h3>{{this.title}}</h3>
+        <span>ID: {{this.id}}</span>
+      </div>
+      <div class="body">
+        <p>Desc: <em>{{this.description}}</em></p>
+        <span>Precio: <em>{{this.price}}</em></span>
+        <span>Codigo: <em>{{this.code}}</em></span>
+      </div>
+      <div class="footer">
+        <span>Stock: {{this.stock}}</span>
+        <p>Categoria: <em>{{this.category}}</em></p>
+        <button>Agregar al carrito</button>
+      </div>
+    </article>
+  {{/each}}
+</div>
+<div class="controls" data-pages="{{totalPages}}">
+  <a class="back">Anterior</a>
+  <a class="forward">Siguiente</a>
+  {{#if products.hasPrevPage}}
+  <style>
+    .controls a:first-child {
+      color: blue;
+      pointer-events: unset; 
+      cursor: pointer;
+    }
+  </style>
+  {{/if}}
+
+  {{#if products.hasNextPage}}
+  <style>
+    .controls a:last-of-type {
+      color: blue;
+      pointer-events: unset; 
+      cursor: pointer;
+    }
+  </style>
+  {{/if}}
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/products.js"></script>

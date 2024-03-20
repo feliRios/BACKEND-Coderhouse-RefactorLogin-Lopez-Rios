@@ -1,4 +1,5 @@
 import { Router } from "express";
+import passport from "passport";
 
 const routerUser = Router();
 
@@ -14,6 +15,10 @@ function auth(req, res, next){
     return res.status(401).send("Error: not authorized!");
   }
 }
+
+routerUser.get("/github", passport.authenticate("github", {}), async (req, res) => {
+
+})
 
 routerUser.get("/login", (req, res) => {
   res.render("login", {});

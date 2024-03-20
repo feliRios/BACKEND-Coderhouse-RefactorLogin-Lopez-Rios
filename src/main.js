@@ -6,6 +6,8 @@ import http from "http";
 import { Server } from "socket.io";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import passport from "passport";
+import initializePassport from "./config/passport.js";
 
 
 // Importaciones de rutas y managers
@@ -36,6 +38,11 @@ app.use(session({
 
 // Middleware para servicio de archivos estaticos
 app.use(express.static(__dirname+"/public"));
+
+// Middleware para passport
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Configuracion del motor de plantillas
 app.engine("handlebars", handlebars.engine());

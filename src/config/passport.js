@@ -43,13 +43,14 @@ const initializePassport = () => {
   }, async (accessToken, refreshToken, profile, done) => {
     try {
       console.log(profile);
+      const userGitEmail = profile.id + "@github.com";
       let user = await um.getUser(profile._json.email);
       if(!user){
         let newUser = um.newUser({
           first_name: profile._json.name,
           last_name: "Empty",
           age: 18,
-          email: profile._json.email,
+          email: userGitEmail,
           password: "",
           role: "user"
         });

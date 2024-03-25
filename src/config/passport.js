@@ -42,11 +42,11 @@ const initializePassport = () => {
     callbackURL: "http://localhost:8080/api/session/githubcallback"
   }, async (accessToken, refreshToken, profile, done) => {
     try {
-      console.log(profile);
       const userGitEmail = profile.id + "@github.com";
-      let user = await um.getUser(profile._json.email);
+      let user = await um.getUser(userGitEmail);
+      console.log(user);  // Esto estaria imprimiendo null
       if(!user){
-        let newUser = um.newUser({
+        let newUser = await um.newUser({
           first_name: profile._json.name,
           last_name: "Empty",
           age: 18,
@@ -66,7 +66,7 @@ const initializePassport = () => {
   }))
 
   passport.serializeUser((user, done) => {
-    done(null, user._id);
+    done(null, user);
   });
 
   passport.deserializeUser(async (id, done) => {
